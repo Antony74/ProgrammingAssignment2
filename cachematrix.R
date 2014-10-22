@@ -1,15 +1,57 @@
-## Put comments here that give an overall description of what your
-## functions do
+##
+## Inverting a matrix can be a costly computation, so:
+##		makeCacheMatrix - Creates an object containing given a matrix, but also containing space for the matrix's inverse.
+##		cacheSolve      - Returns the inverse of a matrix of the previously defined type, from the cache if this operation has already been done.
+##
 
-## Write a short comment describing this function
+##
+## Create an object containing given a matrix, but also containing space for the matrix's inverse
+##
+makeCacheMatrix <- function(matrixOriginal = matrix())
+{
+	matrixInverse <- NULL
 
-makeCacheMatrix <- function(x = matrix()) {
+	set <- function(m)
+	{
+		matrixOriginal <<- m
+		matrixInverse <<- NULL
+	}
 
+	get <- function()
+	{
+		matrixOriginal
+	}
+	
+	setInverse <- function(m)
+	{
+		matrixInverse <<- m
+	}
+
+	getInverse <- function()
+	{
+		matrixInverse
+	}
+
+	list(set = set,
+		 get = get,
+		 setInverse = setInverse,
+		 getInverse = getInverse)
 }
 
+##
+## Return the inverse of a matrix of the previously defined type, from the cache if this operation has already been done
+##
+cacheSolve <- function(m)
+{
+	if (is.null(m$getInverse()))
+	{
+		m$setInverse(solve(m$get()))
+	}
+	else
+	{
+		message("getting cached data")
+	}
 
-## Write a short comment describing this function
-
-cacheSolve <- function(x, ...) {
-        ## Return a matrix that is the inverse of 'x'
+	m$getInverse();
 }
+
